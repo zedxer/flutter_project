@@ -19,6 +19,14 @@ class StudentModel {
   String grade;
   String? pictureUrl;
 
+
+  /*{
+  * "name":"naqi",
+  * "email":"naqi@gmail.com"
+  * "percentage": 98.0
+  * } */
+
+
   factory StudentModel.fromJson(Map<String, dynamic> json) {
     return StudentModel(
       id: json['id'],

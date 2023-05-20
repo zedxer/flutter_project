@@ -19,7 +19,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ASYNC AWAIT
 
-Certainly! In Flutter, the concepts of Future, async, and await are related to asynchronous programming, which allows you to perform tasks concurrently without blocking the execution of your app.
+ In Flutter, the concepts of Future, async, and await are related to asynchronous programming, which allows you to perform tasks concurrently without blocking the execution of your app.
 Here's a simple explanation of these concepts:
 1. Future: A Future represents a value or an error that may not be available immediately. It is used to represent an asynchronous operation that will complete sometime in the future. You can think of it as a placeholder for a value that will be available later.
 2. async: The async keyword is used to mark a function as asynchronous. When a function is marked as async, it means that it may contain await expressions and can return a Future or use other asynchronous operations.
@@ -35,6 +35,7 @@ void main() async {
 print('Before fetching data');
 
 int result = await fetchData();
+
 print('Fetched data: $result');
 
 print('After fetching data');
@@ -73,18 +74,81 @@ While using dynamic provides flexibility, it also bypasses static type checking 
 In cases where you need to work with values of different types without explicitly defining their types, or when dealing with external dynamic data such as JSON or external APIs, dynamic can be useful. However, it's important to exercise caution and ensure proper type checks and handling to avoid unexpected errors.
 
 Future<List<Student>> fetchStudents() async {
-final url = Uri.parse('api/getstudents');
+   final url = Uri.parse('api/getstudents');
 
-final response = await http.get(url);
+   final response = await http.get(url);
 
-if (response.statusCode == 200) {
-final List<dynamic> jsonData = jsonDecode(response.body);
+   if (response.statusCode == 200) {
+   
+   final List<dynamic> jsonData = jsonDecode(response.body);
 
     List<Student> students = jsonData.map((data) => Student.fromJson(data)).toList();
     
-    return students;
+         return students;
+      } else {
+         throw Exception('Failed to fetch students');
+      } 
+   }
+
+
+
+
+Send a raw JSON POST request:
+
+Future<void> sendRawJsonData() async {
+final url = Uri.parse('your_api_endpoint');
+
+final headers = {
+'Content-Type': 'application/json',
+};
+
+final body = jsonEncode({
+'field1': 'value1',
+'field2': 'value2',
+});
+
+final response = await http.post(url, headers: headers, body: body);
+
+if (response.statusCode == 200) {
+// Request successful
+print('Request successful');
 } else {
-throw Exception('Failed to fetch students');
+// Request failed
+print('Request failed with status: ${response.statusCode}');
 }
 }
 
+
+Send a POST request with form data:
+
+Future<void> sendFormData() async {
+final url = Uri.parse('your_api_endpoint');
+
+final response = await http.post(
+url,
+headers: {
+'Content-Type': 'application/x-www-form-urlencoded',
+},
+body: {
+'field1': 'value1',
+'field2': 'value2',
+},
+);
+
+if (response.statusCode == 200) {
+// Request successful
+print('Request successful');
+} else {
+// Request failed
+print('Request failed with status: ${response.statusCode}');
+}
+}
+
+
+
+http://192.168.1.12:3000/api/v1/user-get
+http://192.168.1.12:3000/api/v1/user-post
+http://192.168.1.12:3000/api/v1/user-signin
+http://192.168.1.12:3000/api/v1/user-get/:id
+http://192.168.1.12:3000/api/v1/user-delete/:id
+http://192.168.1.12:3000/api/v1/user-put/:id
