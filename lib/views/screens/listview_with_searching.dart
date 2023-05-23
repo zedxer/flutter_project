@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ListViewExample extends StatefulWidget {
-  const ListViewExample({super.key, required this.title});
+class ListViewWithSearchExample extends StatefulWidget {
+  const ListViewWithSearchExample({super.key, required this.title});
 
   final String title;
 
   @override
-  State<ListViewExample> createState() => _ListViewExampleState();
+  State<ListViewWithSearchExample> createState() =>
+      _ListViewWithSearchExampleState();
 }
 
-class _ListViewExampleState extends State<ListViewExample> {
+class _ListViewWithSearchExampleState extends State<ListViewWithSearchExample> {
   List<Student>? students;
   TextEditingController editingController = TextEditingController();
 
@@ -45,9 +46,11 @@ class _ListViewExampleState extends State<ListViewExample> {
                   var studentItem = students![index];
                   return GestureDetector(
                     onTap: () {
-                      if (kDebugMode) {
-                        print(students![index].name);
-                      }
+                      Navigator.pushNamed(
+                        context,
+                        '/b',
+                        arguments: 'Hello from HomePage',
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -82,7 +85,7 @@ class _ListViewExampleState extends State<ListViewExample> {
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -117,13 +120,13 @@ class _ListViewExampleState extends State<ListViewExample> {
       List<Student> dummyListData = <Student>[];
       for (var item in dummySearchList) {
         if ((item.name.toLowerCase().contains(query.toLowerCase())) ||
-            (item.phone.toLowerCase().contains(query.toLowerCase())) ||
-            // (item.language.contains(query.toLowerCase()))
-            (item.language.any((lang) => lang.toLowerCase().contains(query
-                .toLowerCase()))) /*||
+                (item.phone.toLowerCase().contains(query.toLowerCase())) ||
+                // (item.language.contains(query.toLowerCase()))
+                (item.language.any((lang) => lang.toLowerCase().contains(query
+                    .toLowerCase()))) /*||
               (item.grade.toLowerCase().contains(query.toLowerCase())) ||
               (item.email.toLowerCase().contains(query.toLowerCase()))*/
-        ) {
+            ) {
           dummyListData.add(item);
         }
       }
@@ -154,39 +157,39 @@ class _ListViewExampleState extends State<ListViewExample> {
 
 class StudentsService {
   static getStudents() => [
-    Student(
-        id: "123",
-        name: "Naqi",
-        phone: "03422152503",
-        email: "naqi@google.com",
-        language: ["english", "punjabi", "urdu"],
-        grade: "A"),
-    Student(
-        id: "321",
-        name: "Ahsan",
-        phone: "03422642503",
-        email: "ahsan@facebook.com",
-        language: ["urdu", "english"],
-        grade: "B"),
-    Student(
-        id: "122",
-        name: "Sumair",
-        phone: "03422322503",
-        email: "sumair@amazon.com",
-        language: ["urdu", "sindhi", "english"],
-        grade: "C"),
-  ];
+        Student(
+            id: "123",
+            name: "Naqi",
+            phone: "03422152503",
+            email: "naqi@google.com",
+            language: ["english", "punjabi", "urdu"],
+            grade: "A"),
+        Student(
+            id: "321",
+            name: "Ahsan",
+            phone: "03422642503",
+            email: "ahsan@facebook.com",
+            language: ["urdu", "english"],
+            grade: "B"),
+        Student(
+            id: "122",
+            name: "Sumair",
+            phone: "03422322503",
+            email: "sumair@amazon.com",
+            language: ["urdu", "sindhi", "english"],
+            grade: "C"),
+      ];
 }
 
 class Student {
   Student(
       {required this.id,
-        required this.name,
-        required this.phone,
-        required this.email,
-        required this.language,
-        required this.grade,
-        this.pictureUrl});
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.language,
+      required this.grade,
+      this.pictureUrl});
 
   String? id;
   String name;
