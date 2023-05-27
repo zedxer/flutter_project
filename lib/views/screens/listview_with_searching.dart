@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ListViewExample extends StatefulWidget {
-  const ListViewExample({super.key, required this.title});
+class ListViewWithSearchExample extends StatefulWidget {
+  const ListViewWithSearchExample({super.key, required this.title});
 
   final String title;
 
   @override
-  State<ListViewExample> createState() => _ListViewExampleState();
+  State<ListViewWithSearchExample> createState() =>
+      _ListViewWithSearchExampleState();
 }
 
-class _ListViewExampleState extends State<ListViewExample> {
+class _ListViewWithSearchExampleState extends State<ListViewWithSearchExample> {
   List<Student>? students;
   TextEditingController editingController = TextEditingController();
 
@@ -45,9 +46,11 @@ class _ListViewExampleState extends State<ListViewExample> {
                   var studentItem = students![index];
                   return GestureDetector(
                     onTap: () {
-                      if (kDebugMode) {
-                        print(students![index].name);
-                      }
+                      Navigator.pushNamed(
+                        context,
+                        '/b',
+                        arguments: 'Hello from HomePage',
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),

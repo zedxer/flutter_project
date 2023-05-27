@@ -1,64 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/viewmodels/student_view_models.dart';
+import 'package:untitled/views/screens/bottomnav_example.dart';
+import 'package:untitled/views/screens/future_list_example.dart';
+import 'package:untitled/views/screens/listview_with_provider_example.dart';
 
 import 'data.dart';
 import 'gesture_detector.dart';
-import 'listview_with_searching.dart';
+import 'views/screens/listview_with_searching.dart';
+import 'views/screens/login.dart';
 
 void main() {
-  runApp(const ListViewDataExample());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => StudentViewModel(),
+      child: MyApp(),
+    ),
+  );
 }
 
-class ListViewDataExample extends StatefulWidget {
-  const ListViewDataExample({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  @override
-  State<ListViewDataExample> createState() => _ListViewDataExampleState();
-}
-
-class _ListViewDataExampleState extends State<ListViewDataExample> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text("List View"),
-          ),
-          // body: ListView.builder(
-          //   itemCount: bookList.length,
-          //   itemBuilder: (context, index) {
-          //     Book book = bookList[index];
-          //     return ListTile(
-          //       title: Text(book.title),
-          //       subtitle: Text("${book.author}, ${book.publicationYear}"),
-          //     );
-          //   },
-          // body: MyGestureDetector(),
-          // body: const ListViewExample(
-          //   title: 'List Example',
-          // )
-
-          body: FutureBuilder<List<User>>(
-            future: fetchUsers(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<User> users = snapshot.data!;
-                return ListView.builder(
-                  itemCount: users.length,
-                  itemBuilder: (context, index) {
-                    User user = users[index];
-                    return ListTile(
-                      title: Text(user.name),
-                      subtitle: Text(user.email),
-                    );
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-          ),
+      routes: {
+        '/a': (context) => const ListViewWithSearchExample(
+              title: 'Some Title',
+            ),
+        '/b': (context) => const ListViewDataExample(),
+        '/c': (context) => const LoginScreen(),
+        '/d': (context) => const ListScreenWithProviders(),
+        '/e': (context) => const BottomNavigationBarExample(),
+      },
+      initialRoute: '/e',
     );
   }
 }
