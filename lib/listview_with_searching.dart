@@ -82,7 +82,8 @@ class _ListViewExampleState extends State<ListViewExample> {
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20),
-                                    )
+                                    ),
+                                    getIcons(studentItem.percentage),
                                   ],
                                 ),
                               ),
@@ -102,6 +103,34 @@ class _ListViewExampleState extends State<ListViewExample> {
     );
   }
 
+  Widget getIcons(double percetage) {
+    if (percetage.isBetween(95.0, 100.0)) {
+      return const Icon(
+        Icons.star,
+        color: Colors.green,
+        size: 30.0,
+      );
+    } else if (percetage.isBetween(75.0, 95.0)) {
+      return const Icon(
+        Icons.check,
+        color: Colors.green,
+        size: 30.0,
+      );
+    } else if (percetage.isBetween(60.0, 75.0)) {
+      return const Icon(
+        Icons.arrow_circle_left,
+        color: Colors.green,
+        size: 30.0,
+      );
+    } else {
+      return const Icon(
+        Icons.close,
+        color: Colors.red,
+        size: 30.0,
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -117,13 +146,13 @@ class _ListViewExampleState extends State<ListViewExample> {
       List<Student> dummyListData = <Student>[];
       for (var item in dummySearchList) {
         if ((item.name.toLowerCase().contains(query.toLowerCase())) ||
-            (item.phone.toLowerCase().contains(query.toLowerCase())) ||
-            // (item.language.contains(query.toLowerCase()))
-            (item.language.any((lang) => lang.toLowerCase().contains(query
-                .toLowerCase()))) /*||
+                (item.phone.toLowerCase().contains(query.toLowerCase())) ||
+                // (item.language.contains(query.toLowerCase()))
+                (item.language.any((lang) => lang.toLowerCase().contains(query
+                    .toLowerCase()))) /*||
               (item.grade.toLowerCase().contains(query.toLowerCase())) ||
               (item.email.toLowerCase().contains(query.toLowerCase()))*/
-        ) {
+            ) {
           dummyListData.add(item);
         }
       }
@@ -154,45 +183,55 @@ class _ListViewExampleState extends State<ListViewExample> {
 
 class StudentsService {
   static getStudents() => [
-    Student(
-        id: "123",
-        name: "Naqi",
-        phone: "03422152503",
-        email: "naqi@google.com",
-        language: ["english", "punjabi", "urdu"],
-        grade: "A"),
-    Student(
-        id: "321",
-        name: "Ahsan",
-        phone: "03422642503",
-        email: "ahsan@facebook.com",
-        language: ["urdu", "english"],
-        grade: "B"),
-    Student(
-        id: "122",
-        name: "Sumair",
-        phone: "03422322503",
-        email: "sumair@amazon.com",
-        language: ["urdu", "sindhi", "english"],
-        grade: "C"),
-  ];
+        Student(
+            id: "123",
+            name: "Naqi",
+            phone: "03422152503",
+            email: "naqi@google.com",
+            percentage: 96.0,
+            language: ["english", "punjabi", "urdu"],
+            grade: "A"),
+        Student(
+            id: "321",
+            name: "Ahsan",
+            phone: "03422642503",
+            email: "ahsan@facebook.com",
+            percentage: 65.0,
+            language: ["urdu", "english"],
+            grade: "B"),
+        Student(
+            id: "122",
+            name: "Sumair",
+            phone: "03422322503",
+            email: "sumair@amazon.com",
+            percentage: 0.0,
+            language: ["urdu", "sindhi", "english"],
+            grade: "C"),
+      ];
 }
 
 class Student {
   Student(
       {required this.id,
-        required this.name,
-        required this.phone,
-        required this.email,
-        required this.language,
-        required this.grade,
-        this.pictureUrl});
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.percentage,
+      required this.language,
+      required this.grade,
+      this.pictureUrl});
 
   String? id;
   String name;
   String phone;
   String email;
+  double percentage;
   List<String> language;
   String grade;
   String? pictureUrl;
+}
+extension RangeCheck on num {
+  bool isBetween(num from, num to) {
+    return from <= this && this <= to;
+  }
 }
